@@ -41,11 +41,10 @@ const ClearButton = () => {
   return <IconButton width={36} height={36} iconType="close" onClick={resetValues} />;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AgeModal = ({ control }: ModalProps<any>) => {
   const [openModal, closeModal] = useOverlay();
   const [save, setSave] = useBooleanState(false);
-  const { formState } = useFormContext();
+  const { formState, getFieldState } = useFormContext();
   const handleSave = useCallback(() => {
     setSave();
     closeModal();
@@ -64,7 +63,11 @@ const AgeModal = ({ control }: ModalProps<any>) => {
           </div>
         </ModalContent>
         <ModalFooter type="vertical">
-          <Button onClick={handleSave} type="button">
+          <Button
+            onClick={handleSave}
+            disabled={getFieldState('minAge').invalid && getFieldState('maxAge').invalid}
+            type="button"
+          >
             저장하기
           </Button>
           <Button onClick={closeModal} type="button" color="text">

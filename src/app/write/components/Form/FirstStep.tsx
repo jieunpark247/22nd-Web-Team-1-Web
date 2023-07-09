@@ -1,6 +1,6 @@
 'use client';
 import dayjs from 'dayjs';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Input, InputDropdown, InputSection, Typography } from '@/components';
 import { InputDate, Counter, AgeModal, MapModal } from '@/app/write/components';
@@ -9,8 +9,7 @@ import getTimeList from '@/app/write/components/InputDate/getTimes';
 import useFormStore from '@/app/write/store/useFormStore';
 import { stepOneSchema, StepOneSchema } from '@/app/write/lib/schema';
 import { StepOneData } from '@/app/write/types';
-import { formWrapper, sectionGap, inputGap, submitButton } from './Form.css';
-import { useMediaQuery } from '@/hooks';
+import { formWrapper, sectionGap, inputGap } from './Form.css';
 
 type stepProps = {
   nextStep: () => void;
@@ -18,18 +17,12 @@ type stepProps = {
 
 const FirstStep = ({ nextStep }: stepProps) => {
   const { stepOne, setData } = useFormStore();
-  const [isMobile, setMobile] = useState<boolean>(false);
-  const mobile = useMediaQuery({ bp: 'm' });
 
   const method = useForm<StepOneSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(stepOneSchema),
     defaultValues: stepOne || {},
   });
-
-  useEffect(() => {
-    setMobile(mobile);
-  }, [mobile]);
 
   const onSubmit = useCallback(
     (data: StepOneData) => {
@@ -54,7 +47,7 @@ const FirstStep = ({ nextStep }: stepProps) => {
       <FormProvider {...method}>
         <form className={formWrapper} onSubmit={method.handleSubmit(onSubmit)}>
           <div className={sectionGap}>
-            <Typography variant={isMobile ? 'title3' : 'heading4'} as="p">
+            <Typography variant="heading4" as="p">
               언제 만날까요?
             </Typography>
             <div className={inputGap}>
@@ -72,33 +65,20 @@ const FirstStep = ({ nextStep }: stepProps) => {
             </div>
           </div>
           <div className={sectionGap}>
-            <Typography variant={isMobile ? 'title3' : 'heading4'} as="p">
+            <Typography variant="heading4" as="p">
               몇 명 모을까요?
             </Typography>
             <div className={inputGap}>
-              {isMobile ? (
-                <>
-                  <InputSection label="인원" direction="row" required={true}>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <AgeModal control={method.control} />
-                      <Counter control={method.control} name={'maxApply'} />
-                    </div>
-                  </InputSection>
-                </>
-              ) : (
-                <>
-                  <InputSection label="인원" direction="row" required={true}>
-                    <Counter control={method.control} name={'maxApply'} />
-                  </InputSection>
-                  <InputSection label="" direction="row">
-                    <AgeModal control={method.control} />
-                  </InputSection>
-                </>
-              )}
+              <InputSection label="인원" direction="row" required={true}>
+                <Counter control={method.control} name={'maxApply'} />
+              </InputSection>
+              <InputSection label="" direction="row">
+                <AgeModal control={method.control} />
+              </InputSection>
             </div>
           </div>
           <div className={sectionGap}>
-            <Typography variant={isMobile ? 'title3' : 'heading4'} as="p">
+            <Typography variant="heading4" as="p">
               어디서 만날까요?
             </Typography>
             <div className={inputGap}>
@@ -115,10 +95,15 @@ const FirstStep = ({ nextStep }: stepProps) => {
               </InputSection>
             </div>
           </div>
-          <Button className={submitButton} type="submit" disabled={!method.formState.isDirty}>
+          <Button size="xLarge" type="submit" disabled={!method.formState.isDirty}>
             다음
           </Button>
         </form>
+        {method.formState.isSubmitted && !method.formState.isValid && (
+          <Typography color="red500" variant="label5" as="label">
+            필수 항목을 입력하세요.
+          </Typography>
+        )}
       </FormProvider>
     </>
   );

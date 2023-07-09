@@ -20,7 +20,6 @@ type TControl<T extends FieldValues> = {
   selections?: string[];
 } & HTMLAttributes<HTMLDivElement>;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const InputDropdown = ({ ...props }: TControl<any>) => {
   const { name, control, placeholder, showError = true, selections = ['default'] } = props;
 

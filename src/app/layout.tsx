@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import Script from 'next/script';
 import { OverlayProvider, QueryProvider } from '@/providers';
 import { ProfileProvider } from '@/providers/server';
+import Head from 'next/head';
 
 const pretendardFont = localFont({
   src: '../../public/PretendardVariable.woff2',
@@ -17,6 +18,14 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={pretendardFont.className}>
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:image" content={'/ogImg/chatlink_kakaotalk.png'} />
+        <meta property="og:image" content={'/ogImg/chatlink_naver.png'} />
+        <meta property="og:image" content={'/ogImg/chatlink_facebook.png'} />
+        <meta property="og:image" content={'/ogImg/chatlink_twitter.png'} />
+        <meta name="twitter:image:type" content={'/ogImg/chatlink_twitter.png'} />
+      </Head>
       <script
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=services,clusterer,drawing&autoload=false`}
         async

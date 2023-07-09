@@ -1,23 +1,14 @@
 import { style } from '@vanilla-extract/css';
-import { screenMQ, themeTokens } from '@/styles/theme.css';
+import { themeTokens } from '@/styles/theme.css';
 
 const { space } = themeTokens;
 export const wrapper = style({
   width: '674px',
-  marginTop: '7.25rem',
-  marginBottom: space['7xl'],
+  margin: '7.25rem auto',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
   gap: '2.25rem',
-  '@media': {
-    [screenMQ.m]: {
-      width: '100%',
-      marginTop: '7.25rem',
-      marginBottom: space.xl,
-      padding: `${space.lg} ${space.xl} 0 ${space.xl}`,
-    },
-  },
 });
 
 export const rowSection = style({
