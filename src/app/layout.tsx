@@ -16,6 +16,7 @@ export const metadata = {
   openGraph: {
     title: '먹팟',
     description: '번개 점심팟 구하기',
+    url: 'https://mukpat.com',
     images: [
       {
         url: '/ogImg/chatlink_kakaotalk.png',
